@@ -9,8 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "amadeus": "^10.1.0",
+    "dotenv": "^16.4.5",
     "next": "14.2.6",
+    "openai": "^4.56.0",
+    "amadeus": "^10.1.0",
     "react": "^18",
     "react-dom": "^18"
   },
