@@ -19,7 +19,7 @@ export default function Home() {
     const response = await amadeus.referenceData.locations.get({
       keyword,
       subType: Amadeus.location.city,
-    });
+    }); 
     try {
       await setResult(json(JSON.parse(response.body)));
     } catch (err) {
