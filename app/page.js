@@ -1,35 +1,36 @@
 'use client'
 import { useState } from "react";
-const Amadeus = require("amadeus");
-
-const API_KEY = process.env.AMADEUS_API;
-const API_SECRET = process.env.AMADEUS_SECRET;
-
-const amadeus = new Amadeus({
-  clientId: API_KEY,
-  clientSecret: API_SECRET,
-});
+import Amadeus from 'amadeus'
 
 export default function Home() {
-  const [test, setTest] = useState('Chin');
-  const [result, setResult] = useState('')
+  const [query, setQuery] = useState('Testy');
+  const [result, setResult] = useState('');
 
   const handleSearch = async () => {
-    const { keyword } = 'Test';
-    const response = await amadeus.referenceData.locations.get({
-      keyword,
-      subType: Amadeus.location.city,
-    }); 
-    try {
-      await setResult(json(JSON.parse(response.body)));
-    } catch (err) {
-      await console.log(err);
+    const response = await fetch('/apis/amadeus/search', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({keyword: query}),
+    })
+    
+    if(response) {
+      const data = await response.json();
+      setResult(JSON.stringify(data));
     }
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <button onClick={handleSearch}>Search test</button>
+    <main className="flex min-h-screen flex-col items-center p-24">
+      <input
+                        type="query"
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        placeholder="Search"
+                        className="w-full p-2 border border-gray-300 rounded-lg mb-4 text-black"
+                    />
+      <button onClick={handleSearch} className="bg-blue-400">Search test</button>
       <p>{result}</p>
     </main>
   );
